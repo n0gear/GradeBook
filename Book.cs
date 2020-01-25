@@ -11,6 +11,23 @@ namespace GradeBook
             grades = new List<double>();
             Name = name;
         }
+        public void AddLetterGrade(char letter)
+        {
+            switch(letter)
+            {
+                case 'A':
+                    AddGrade(90);
+                    break;
+
+                case 'B':
+                    AddGrade(80);
+                    break;
+
+                default:
+                    AddGrade(0);
+                    break;
+            }
+        }
         public void AddGrade(double grade)
         {
             if(grade <= 100 && grade >= 0)
@@ -19,7 +36,7 @@ namespace GradeBook
             }
             else
             {
-                Console.WriteLine("Invalid value");
+                throw new ArgumentException($"Invalid grade {nameof(grade)}");
             }
                 
         }
@@ -39,6 +56,25 @@ namespace GradeBook
                 result.Average += grades[index];
             }
             result.Average /= grades.Count;
+            
+            switch(result.Average)
+            {
+                case var d when d >= 90.0:
+                    result.Letter = 'A';
+                    break;
+
+                case var d when d >= 98.0:
+                    result.Letter = 'B';
+                    break;
+
+                case var d when d >= 90.0:
+                    result.Letter = 'A';
+                    break;
+
+                default:
+                    result.Letter = 'F';
+                    break;
+            }
 
             return result;
         }
