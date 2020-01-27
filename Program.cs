@@ -8,6 +8,7 @@ namespace GradeBook
         static void Main(string[] args)
         {
             var book = new Book("Kristian's Grade Book");
+            book.GradeAdded += OnGradeAdded;
 
             while (true)
             {
@@ -31,10 +32,17 @@ namespace GradeBook
             }
             
             var stats = book.GetStatistics();
+
+            Console.WriteLine($"For the book named {book.Name}");
             Console.WriteLine($"The Average is: {stats.Average:N2}");
             Console.WriteLine($"The High is: {stats.High:N2}");
             Console.WriteLine($"The Low is: {stats.Low:N2}");
             Console.WriteLine($"The Letter Grade is: {stats.Letter}");
+        }
+
+        static void OnGradeAdded(object sender, EventArgs e)
+        {
+            Console.WriteLine("Grade added");
         }
     }
 }
