@@ -7,30 +7,11 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {
-            var book = new Book("Kristian's Grade Book");
+            var book = new InMemoryBook("Kristian's Grade Book");
             book.GradeAdded += OnGradeAdded;
 
-            while (true)
-            {
-                Console.WriteLine("Enter a grade: ");
-                var input = Console.ReadLine();
-                
-                if(input == "q")
-                {
-                    break;
-                }
+            EnterGrades(book);
 
-                try
-                { 
-                var grade = double.Parse(input);
-                book.AddGrade(grade);
-                }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-            
             var stats = book.GetStatistics();
 
             Console.WriteLine($"For the book named {book.Name}");
@@ -38,6 +19,30 @@ namespace GradeBook
             Console.WriteLine($"The High is: {stats.High:N2}");
             Console.WriteLine($"The Low is: {stats.Low:N2}");
             Console.WriteLine($"The Letter Grade is: {stats.Letter}");
+        }
+
+        private static void EnterGrades(Book book)
+        {
+            while (true)
+            {
+                Console.WriteLine("Enter a grade: ");
+                var input = Console.ReadLine();
+
+                if (input == "q")
+                {
+                    break;
+                }
+
+                try
+                {
+                    var grade = double.Parse(input);
+                    book.AddGrade(grade);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
         }
 
         static void OnGradeAdded(object sender, EventArgs e)
